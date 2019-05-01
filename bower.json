@@ -1,0 +1,26 @@
+{
+  "name": "purescript-form-decoder",
+  "homepage": "https://github.com/amderbar/purescript-form-decoder.git",
+  "license": "BSD-3-Clause",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/amderbar/purescript-form-decoder.git"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "output"
+  ],
+  "dependencies": {
+    "purescript-prelude": "^4.1.1",
+    "purescript-console": "^4.2.0",
+    "purescript-effect": "^2.0.1",
+    "purescript-numbers": "^6.0.0",
+    "purescript-validation": "^4.2.0"
+  },
+  "devDependencies": {
+    "purescript-psci-support": "^4.0.0",
+    "purescript-spec": "^3.1.0"
+  }
+}
