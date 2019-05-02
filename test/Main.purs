@@ -63,8 +63,8 @@ main =
 
       describe "Primitive validators" do
         it "validater" do
-          (V.toEither $ D.validater "Invalid" (\_ -> false) "foo") `shouldEqual` (Left  "Invalid")
-          (V.toEither $ D.validater "Invalid" (\_ -> true)  "foo") `shouldEqual` (Right unit)
+          (V.toEither $ (D.run (D.validator "Invalid" \_ -> false) "foo")) `shouldEqual` (Left  "Invalid")
+          (V.toEither $ (D.run (D.validator "Invalid" \_ -> true)  "foo")) `shouldEqual` (Right unit)
 
         it "required" do
           (V.toEither $ D.run (D.required "Invalid") "")    `shouldEqual` (Left  "Invalid")

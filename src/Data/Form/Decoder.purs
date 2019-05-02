@@ -85,32 +85,32 @@ symbol err sybl str = Decoder \i -> if i == str then pure sybl else V.invalid er
 
 -- Primitive validators
 
--- | internal validation function using given function.
-validator :: forall e i. Semigroup e => e -> (i -> Boolean) -> i -> V e Unit
-validator err rule val =
-  if rule val
+-- | Constructor for `Validator e i` takes a custom validation function.
+validator :: forall e i. Semigroup e => e -> (i -> Boolean) -> Validator e i
+validator err rule =
+  Decoder \val -> if rule val
     then pure unit
     else V.invalid err
 
 -- | Primitive validator limiting by not null.
 required :: forall e. Semigroup e => e -> Validator e String
-required err = Decoder $ validator err (not <<< Str.null)
+required err = validator err (not <<< Str.null)
 
 -- | Primitive validator limiting by minimum bound.
 minBound :: forall e ord. Semigroup e => Ord ord => e -> ord -> Validator e ord
-minBound err bound = Decoder $ validator err (_ >= bound)
+minBound err bound = validator err (_ >= bound)
 
 -- | Primitive validator limiting by maximum bound.
 maxBound :: forall e ord. Semigroup e => Ord ord => e -> ord -> Validator e ord
-maxBound err bound = Decoder $ validator err (_ <= bound)
+maxBound err bound = validator err (_ <= bound)
 
 -- | Primitive validator limiting by minimum length.
 minLength :: forall e. Semigroup e => e -> Int -> Validator e String
-minLength err bound = Decoder $ validator err (\s -> Str.length s >= bound)
+minLength err bound = validator err (\s -> Str.length s >= bound)
 
 -- | Primitive validator limiting by maximum length.
 maxLength :: forall e. Semigroup e => e -> Int -> Validator e String
-maxLength err bound = Decoder $ validator err (\s -> Str.length s <= bound)
+maxLength err bound = validator err (\s -> Str.length s <= bound)
 
 
 -- Helper functions to validation
