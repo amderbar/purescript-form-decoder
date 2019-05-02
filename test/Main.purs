@@ -88,9 +88,9 @@ main =
 
       describe "Helper functions to validation" do
         it "assert" do
-          (V.toEither $ D.run testAssert "")    `shouldEqual` (Left  "Required")
-          (V.toEither $ D.run testAssert "foo") `shouldEqual` (Left  "Invalid")
-          (V.toEither $ D.run testAssert "34")  `shouldEqual` (Right 34)
+          (V.toEither $ D.run (D.assert (D.required "Required") (D.int "Invalid")) "")    `shouldEqual` (Left  "Required")
+          (V.toEither $ D.run (D.assert (D.required "Required") (D.int "Invalid")) "foo") `shouldEqual` (Left  "Invalid")
+          (V.toEither $ D.run (D.assert (D.required "Required") (D.int "Invalid")) "34")  `shouldEqual` (Right 34)
 
         it "when" do
           (runFailWhen (_ < 0) ["error"] (-1)) `shouldEqual` (Left ["error"])
@@ -120,6 +120,3 @@ main =
 
       runFailUnless :: forall e i. Semigroup e => (i -> Boolean) -> e -> i -> Either e Unit
       runFailUnless f o = V.toEither <<< D.run (D.unless f $ D.fail o)
-
-      testAssert :: D.Decoder String String Int
-      testAssert = D.assert (D.required "Required") (D.int "Invalid")
